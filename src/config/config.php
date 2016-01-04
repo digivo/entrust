@@ -89,4 +89,15 @@ return [
     */
     'role_foreign_key' => 'role_id',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Entrust Redirect to URI on Permission Fail
+    |--------------------------------------------------------------------------
+    |
+    | This will be placed into redirect()->to() after permission failure
+    | on middleware.
+    |
+    */
+    'redirect_on_fail' => FALSE,
+
 ];

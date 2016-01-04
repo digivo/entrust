@@ -10,6 +10,7 @@
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Support\Facades\Config;
 
 class EntrustAbility
 {
@@ -38,7 +39,10 @@ class EntrustAbility
 	public function handle($request, Closure $next, $roles, $permissions, $validateAll = false)
 	{
 		if ($this->auth->guest() || !$request->user()->ability(explode('|', $roles), explode('|', $permissions), array('validate_all' => $validateAll))) {
-			abort(403);
+			if (Config::get('entrust.redirect') == FALSE)
+				abort(403);
+			else
+				return redirect()->to(Config::get('entrust.redirect'));
 		}
 
 		return $next($request);

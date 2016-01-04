@@ -10,6 +10,7 @@
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Support\Facades\Config;
 
 class EntrustRole
 {
@@ -36,7 +37,10 @@ class EntrustRole
 	public function handle($request, Closure $next, $roles)
 	{
 		if ($this->auth->guest() || !$request->user()->hasRole(explode('|', $roles))) {
-			abort(403);
+			if (Config::get('entrust.redirect') == FALSE)
+				abort(403);
+			else
+				return redirect()->to(Config::get('entrust.redirect'));
 		}
 
 		return $next($request);
