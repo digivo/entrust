@@ -36,7 +36,7 @@ class EntrustPermission
 	 */
 	public function handle($request, Closure $next, $permissions)
 	{
-		if ($this->auth->guest() || !$request->user()->can(explode('|', $permissions))) {
+		if ($this->auth->guest() || !$request->user()->permission(explode('|', $permissions))) {
 			if (Config::get('entrust.redirect') == FALSE)
 				abort(403);
 			else
